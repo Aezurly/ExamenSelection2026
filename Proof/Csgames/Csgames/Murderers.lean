@@ -3,7 +3,7 @@ inductive Personne : Type where
   | mere : Personne
   | fils : Personne
   | fille : Personne
-  
+
 inductive Role : Type where
   | meurtrier : Role
   | victime : Role
@@ -43,17 +43,36 @@ def personneAvecRole (r : Role) : Personne :=
   | Role.temoin => Personne.fille
   | Role.complice => Personne.pere
 
-def constraint1 : Prop := sorry
+-- hardcoded parce que je suis confuse mais je veux continuer
+def personneAvecAge (a : Age) : Personne :=
+ match a with
+  | Age.premier => Personne.pere
+  | Age.deuxieme => Personne.mere
+  | Age.troisieme => Personne.fils
+  | Age.plus_jeune => Personne.fille
 
-def constraint2 : Prop := sorry
+def oppositeSex (s: Sex) : Sex :=
+  match s with
+    | Sex.male => Sex.femelle
+    | Sex.femelle => Sex.male
 
-def constraint3 : Prop := sorry
+-- Le complice et le témoin étaient de sexe opposé
+def constraint1 : Prop := sex (personneAvecRole Role.complice) = oppositeSex (sex (personneAvecRole Role.temoin))
 
-def constraint4 : Prop := sorry
+-- Le membre le plus âgé et le témoin étaient de sexe opposé.
+def constraint2 : Prop := sex (personneAvecAge Age.premier) = oppositeSex (sex (personneAvecRole Role.temoin))
 
-def constraint5 : Prop := sorry
+-- Le membre le plus jeune et la victime étaient de sexe opposé.
+def constraint3 : Prop := sex (personneAvecAge Age.plus_jeune) = oppositeSex (sex (personneAvecRole Role.victime))
 
-def constraint6 : Prop := sorry
+-- Le complice était plus âgé que la victime.
+def constraint4 : Prop := assignationAge (personneAvecRole Role.complice) > assignationAge (personneAvecRole Role.victime)
+
+-- Le père était le membre le plus âgé.
+def constraint5 : Prop := assignationAge Personne.pere = 3
+
+-- Le meurtrier n'était pas le membre le plus jeune.
+def constraint6 : Prop := assignationAge (personneAvecRole Role.meurtrier) != 0
 
 def allConstraints : Prop :=
   constraint1 ∧ constraint2 ∧ constraint3 ∧ constraint4 ∧ constraint5 ∧ constraint6
