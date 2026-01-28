@@ -44,6 +44,10 @@ def personneAvecRole (r : Role) : Personne :=
   | Role.complice => Personne.pere
 
 -- hardcoded parce que je suis confuse mais je veux continuer
+-- ouais j'ai cherché pendant une dizaine de minute une façon de genre
+-- reverse "assignationAge" pour aller du nombre vers le role mais
+-- j'ai découvert Lean aujourd'hui donc c'est un peu court une heure,
+-- j'aurais fait de mon mieux :')
 def personneAvecAge (a : Age) : Personne :=
  match a with
   | Age.premier => Personne.pere
