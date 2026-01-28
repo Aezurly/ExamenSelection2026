@@ -55,19 +55,14 @@ def personneAvecAge (a : Age) : Personne :=
   | Age.troisieme => Personne.fils
   | Age.plus_jeune => Personne.fille
 
-def oppositeSex (s: Sex) : Sex :=
-  match s with
-    | Sex.male => Sex.femelle
-    | Sex.femelle => Sex.male
-
 -- Le complice et le témoin étaient de sexe opposé
-def constraint1 : Prop := sex (personneAvecRole Role.complice) = oppositeSex (sex (personneAvecRole Role.temoin))
+def constraint1 : Prop := sex (personneAvecRole Role.complice) ≠ (sex (personneAvecRole Role.temoin))
 
 -- Le membre le plus âgé et le témoin étaient de sexe opposé.
-def constraint2 : Prop := sex (personneAvecAge Age.premier) = oppositeSex (sex (personneAvecRole Role.temoin))
+def constraint2 : Prop := sex (personneAvecAge Age.premier) ≠ (sex (personneAvecRole Role.temoin))
 
 -- Le membre le plus jeune et la victime étaient de sexe opposé.
-def constraint3 : Prop := sex (personneAvecAge Age.plus_jeune) = oppositeSex (sex (personneAvecRole Role.victime))
+def constraint3 : Prop := sex (personneAvecAge Age.plus_jeune) ≠ (sex (personneAvecRole Role.victime))
 
 -- Le complice était plus âgé que la victime.
 def constraint4 : Prop := assignationAge (personneAvecRole Role.complice) > assignationAge (personneAvecRole Role.victime)
